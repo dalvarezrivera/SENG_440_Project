@@ -197,7 +197,7 @@ int main() {
     }
 
     char **binaries = malloc(MAX_LINES * sizeof(char *));
-    char **binaries_adjusted = malloc((MAX_LINES_ADJUSTED + 1) * sizeof(char *));
+    char **binaries_adjusted = malloc(MAX_LINES_ADJUSTED * sizeof(char *));
     int *binaries_compressed = malloc(MAX_LINES_ADJUSTED * sizeof(int));
     int *binaries_decompressed = malloc(MAX_LINES_ADJUSTED * sizeof(int));
 
@@ -218,7 +218,7 @@ int main() {
         return 1;
     }
 
-    for (int i = 0; i < MAX_LINES; i++) {
+    for (int i = 0; i < MAX_LINES+1; i++) {
         binaries[i] = malloc(LINE_LENGTH_READ * sizeof(char));
         binaries_adjusted[i] = malloc(LINE_LENGTH_ADJUSTED * sizeof(char));
         // binaries_compressed[i] = malloc(LINE_LENGTH_ADJUSTED * sizeof(char));
