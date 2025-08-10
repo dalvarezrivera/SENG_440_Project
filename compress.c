@@ -306,8 +306,8 @@ int main() {
         free(binaries_adjusted[i]);
     }
 
-    free(binaries);
-    free(binaries_adjusted);
+    //free(binaries);
+    //free(binaries_adjusted);
     free(binaries_compressed);
     free(binaries_decompressed);
 
