@@ -89,7 +89,7 @@ int codeword_decompression (int compressed) {
     int codeword_tmp = 1;
     int chord = (compressed & 0x70) >> 4;
     int sign = (compressed & 0x80) >> 7;
-    printf("Chord: %d\n", chord);
+    //printf("Chord: %d\n", chord);
     if (chord == 7){
         int zeros = 0x80;
         if (abs(sign-1) == 1){
@@ -97,7 +97,7 @@ int codeword_decompression (int compressed) {
         } else{
             sign = 1;
         }
-        printf("Sign: %d\n", sign);
+        //printf("Sign: %d\n", sign);
         codeword_tmp = (sign << 12) | (step << 8) | zeros;
         return (codeword_tmp);
     }
@@ -109,7 +109,7 @@ int codeword_decompression (int compressed) {
         } else{
             sign = 0;
         }
-        printf("Sign: %d\n", sign);
+        //printf("Sign: %d\n", sign);
         codeword_tmp = (sign << 12) | step_zeros_ones;
         return (codeword_tmp);
     }
@@ -121,7 +121,7 @@ int codeword_decompression (int compressed) {
         } else{
             sign = 0;
         }
-        printf("Sign: %d\n", sign);
+        //printf("Sign: %d\n", sign);
         codeword_tmp = (sign << 12) | step_zeros_ones;
         return (codeword_tmp);
     }
@@ -133,7 +133,7 @@ int codeword_decompression (int compressed) {
         } else{
             sign = 0;
         }
-        printf("Sign: %d\n", sign);
+        //printf("Sign: %d\n", sign);
         codeword_tmp = (sign << 12) | step_zeros_ones;
         return (codeword_tmp);
     }
@@ -145,7 +145,7 @@ int codeword_decompression (int compressed) {
         } else{
             sign = 0;
         }
-        printf("Sign: %d\n", sign);
+        //printf("Sign: %d\n", sign);
         codeword_tmp = (sign << 12) | step_zeros_ones;
         return (codeword_tmp);
     }
@@ -157,7 +157,7 @@ int codeword_decompression (int compressed) {
         } else{
             sign = 0;
         }
-        printf("Sign: %d\n", sign);
+        //printf("Sign: %d\n", sign);
         codeword_tmp = (sign << 12) | step_zeros_ones;
         return (codeword_tmp);
     }
@@ -169,7 +169,7 @@ int codeword_decompression (int compressed) {
         } else{
             sign = 0;
         }
-        printf("Sign: %d\n", sign);
+        //printf("Sign: %d\n", sign);
         codeword_tmp = (sign << 12) | step_zeros_ones;
         return (codeword_tmp);
     }
@@ -181,7 +181,7 @@ int codeword_decompression (int compressed) {
         } else{
             sign = 0;
         }
-        printf("Sign: %d\n", sign);
+        //printf("Sign: %d\n", sign);
         codeword_tmp = (sign << 12) | step_zeros_ones;
         return (codeword_tmp);
     }
@@ -285,7 +285,7 @@ int main() {
     // Decompress
     for (int i = 0; i < adjusted_rows; i++) {
         binaries_decompressed[i] = codeword_decompression(binaries_compressed[i]);
-        printf("Line: %d, compressed: %d, decompressed: %d.\n", i, binaries_compressed[i], binaries_decompressed[i]);
+        //printf("Line: %d, compressed: %d, decompressed: %d.\n", i, binaries_compressed[i], binaries_decompressed[i]);
     }
 
     // Write to file the decompressed data
