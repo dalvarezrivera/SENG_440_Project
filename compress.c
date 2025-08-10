@@ -197,7 +197,7 @@ int main() {
     }
 
     char **binaries = malloc(MAX_LINES * sizeof(char *));
-    char **binaries_adjusted = malloc(MAX_LINES_ADJUSTED + 1 * sizeof(char *));
+    char **binaries_adjusted = malloc(MAX_LINES * sizeof(char *));
     int *binaries_compressed = malloc(MAX_LINES_ADJUSTED * sizeof(int));
     int *binaries_decompressed = malloc(MAX_LINES_ADJUSTED * sizeof(int));
 
