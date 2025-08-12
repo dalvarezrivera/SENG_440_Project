@@ -1,43 +1,38 @@
 import numpy as np
-from pydub import AudioSegment
 import soundfile as sf
 
-# Inverse of your twosComplement function
-# to convert two's complement binary string to int
 def twos_complement_to_int(bstr):
-    # if the sign bit is set (negative number)
+    bits = len(bstr)
+    val = int(bstr, 2)
+    # If sign bit is set, compute negative value
     if bstr[0] == '1':
-        # convert from two's complement to negative int
-        return int(bstr, 2) - (1 << len(bstr))
-    else:
-        return int(bstr, 2)
+        val -= (1 << bits)
+    return val
 
 def main():
-    input_file = "decompressed.txt"
-    output_wav = "recovered_audio.wav"
+    input_file = "daniel_text_decompressed.txt"   # Text file with binary strings
+    output_wav = "reconstructed_check.wav"
+    sample_rate = 48000       # Use the original WAV sample rate
+    bit_depth = 16            # Number of bits per sample
 
-    float_values = []
-
+    int_samples = []
     with open(input_file, "r") as f:
         for line in f:
             bstr = line.strip()
+            if not bstr:
+                continue
+            val = twos_complement_to_int(bstr)
+            int_samples.append(val)
 
-            # Convert from two's complement binary string to int
-            int_val = twos_complement_to_int(bstr)
+    # Convert list to numpy array of int16
+    audio_data = np.array(int_samples, dtype=np.int16)
 
-            # Interpret the int bits as a float32
-            float_val = np.frombuffer(int_val.to_bytes(4, byteorder='big', signed=True), dtype=np.float32)[0]
+    # Convert integers back to float32 range [-1, 1] for saving as wav
+    float_audio = audio_data.astype(np.float32) / 32767.0
 
-            float_values.append(float_val)
-
-    # Convert list to numpy array
-    audio_array = np.array(float_values, dtype=np.float32)
-
-    # Save to WAV file - assuming 22050 Hz sampling rate (default from librosa)
-    sr = 22050
-    sf.write(output_wav, audio_array, sr)
-
-    print(f"Recovered WAV audio saved as {output_wav}")
+    # Write audio to wav file
+    sf.write(output_wav, float_audio, sample_rate)
+    print(f"WAV file saved as {output_wav}")
 
 if __name__ == "__main__":
     main()
