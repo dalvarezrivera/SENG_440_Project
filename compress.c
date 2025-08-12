@@ -7,13 +7,24 @@
 #define LINE_LENGTH_READ 35 // 32 bits + '\0' + safety
 #define LINE_LENGTH_ADJUSTED 13
 
-//
+//LSB to MSB order 
 void int_to_binary(int n, char *output, int length) {
     for (int i = 0; i < length; i++){
         output[i] = ((1 << i) & n) ? '1' : '0';
     }
     output[length] = '\0';
 }
+
+
+//MSB to LSB order
+// void int_to_binary(int n, char *output, int length) {
+//     for (int i = 0; i < length; i++){
+//         // Print MSB first:
+//         output[i] = (n & (1 << (length - 1 - i))) ? '1' : '0';
+//     }
+//     output[length] = '\0';
+// }
+
 
 int signum (int sample){
     if(sample < 0){
@@ -218,7 +229,7 @@ int main() {
         return 1;
     }
 
-    for (int i = 0; i < MAX_LINES+1; i++) {
+    for (int i = 0; i < MAX_LINES; i++) {
         binaries[i] = malloc(LINE_LENGTH_READ * sizeof(char));
         binaries_adjusted[i] = malloc(LINE_LENGTH_ADJUSTED * sizeof(char));
         // binaries_compressed[i] = malloc(LINE_LENGTH_ADJUSTED * sizeof(char));
@@ -282,22 +293,26 @@ int main() {
         adjusted_rows++;
     }
 
-    // Decompress
-    for (int i = 0; i < adjusted_rows; i++) {
-        binaries_decompressed[i] = codeword_decompression(binaries_compressed[i]);
-        //printf("Line: %d, compressed: %d, decompressed: %d.\n", i, binaries_compressed[i], binaries_decompressed[i]);
-    }
-
     // Write to file the decompressed data
     FILE *file_2 = fopen("decompressed.txt", "w");
 
     // Check if the file was opened successfully
-    if (file == NULL) {
-        perror("Error opening file");
+    if (file_2 == NULL) {
+        perror("Error opening decompressed.txt");
         return 1;
     }
 
+    // Decompress
+    char bin_str[LINE_LENGTH_ADJUSTED + 1]; // 13 bits + null terminator
+    for (int i = 0; i < adjusted_rows; i++) {
+        binaries_decompressed[i] = codeword_decompression(binaries_compressed[i]);
+        //printf("Line: %d, compressed: %d, decompressed: %d.\n", i, binaries_compressed[i], binaries_decompressed[i]);
 
+        int_to_binary(binaries_decompressed[i], bin_str, LINE_LENGTH_ADJUSTED);
+        fprintf(file_2, "%s\n", bin_str);
+
+        //fprintf(file_2, "%d\n", binaries_decompressed[i]);
+    }
 
     fclose(file);
 
@@ -306,8 +321,8 @@ int main() {
         free(binaries_adjusted[i]);
     }
 
-    //free(binaries);
-    //free(binaries_adjusted);
+    free(binaries);
+    free(binaries_adjusted);
     free(binaries_compressed);
     free(binaries_decompressed);
 
