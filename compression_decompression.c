@@ -46,102 +46,101 @@ int binary_to_int(const char *in) {
 
 // μ-law compression - returns an 8-bit compressed codeword
 // format: 1 sign bit (inverted), 3 chord bits, 4 step bits
+unsigned char codeword_compression(unsigned int sample_magnitude, int sign) {
+    int chord = 0; 
+    int step = 0;
+    unsigned char codeword_tmp;
 
-// unsigned char codeword_compression(unsigned int sample_magnitude, int sign) {
-//     int chord = 0; 
-//     int step = 0;
-//     unsigned char codeword_tmp;
+    //find the chord by checking bits top-down
+    if (sample_magnitude & (1 << 12)) {
+        chord = 0x7;
+        step = (sample_magnitude >> 8) & 0xF;
+    } else if (sample_magnitude & (1 << 11)) {
+        chord = 0x6;
+        step = (sample_magnitude >> 7) & 0xF;
+    } else if (sample_magnitude & (1 << 10)) {
+        chord = 0x5;
+        step = (sample_magnitude >> 6) & 0xF;
+    } else if (sample_magnitude & (1 << 9)) {
+        chord = 0x4;
+        step = (sample_magnitude >> 5) & 0xF;
+    } else if (sample_magnitude & (1 << 8)) {
+        chord = 0x3;
+        step = (sample_magnitude >> 4) & 0xF;
+    } else if (sample_magnitude & (1 << 7)) {
+        chord = 0x2;
+        step = (sample_magnitude >> 3) & 0xF;
+    } else if (sample_magnitude & (1 << 6)) {
+        chord = 0x1;
+        step = (sample_magnitude >> 2) & 0xF;
+    } else if (sample_magnitude & (1 << 5)) {
+        chord = 0x0;
+        step = (sample_magnitude >> 1) & 0xF;
+    } else {
+        chord = 0x0;
+        step = 0x0;
+    }
 
-//     //find the chord by checking bits top-down
-//     if (sample_magnitude & (1 << 12)) {
-//         chord = 0x7;
-//         step = (sample_magnitude >> 8) & 0xF;
-//     } else if (sample_magnitude & (1 << 11)) {
-//         chord = 0x6;
-//         step = (sample_magnitude >> 7) & 0xF;
-//     } else if (sample_magnitude & (1 << 10)) {
-//         chord = 0x5;
-//         step = (sample_magnitude >> 6) & 0xF;
-//     } else if (sample_magnitude & (1 << 9)) {
-//         chord = 0x4;
-//         step = (sample_magnitude >> 5) & 0xF;
-//     } else if (sample_magnitude & (1 << 8)) {
-//         chord = 0x3;
-//         step = (sample_magnitude >> 4) & 0xF;
-//     } else if (sample_magnitude & (1 << 7)) {
-//         chord = 0x2;
-//         step = (sample_magnitude >> 3) & 0xF;
-//     } else if (sample_magnitude & (1 << 6)) {
-//         chord = 0x1;
-//         step = (sample_magnitude >> 2) & 0xF;
-//     } else if (sample_magnitude & (1 << 5)) {
-//         chord = 0x0;
-//         step = (sample_magnitude >> 1) & 0xF;
-//     } else {
-//         chord = 0x0;
-//         step = 0x0;
-//     }
-
-//     codeword_tmp = ((abs(sign - 1)) << 7) | (chord << 4) | step;
-//     return codeword_tmp;
-// }
+    codeword_tmp = ((abs(sign - 1)) << 7) | (chord << 4) | step;
+    return codeword_tmp;
+}
 
 // // μ-law compression with CLZ
-// int codeword_compression_clz(unsigned int sample_magnitude, int sign) {
-//     int chord, step;
-//     int codeword_tmp;
-//     int zeros_at_left_side = __builtin_clz(sample_magnitude << 19);
-//     // printf("%d\n", zeros_at_left_side);
-//     if(zeros_at_left_side == 0){
-//         chord = 0x7;
-//         step = (sample_magnitude >> 8) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     if(zeros_at_left_side == 1){
-//         chord = 0x6;
-//         step = (sample_magnitude >> 7) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     if(zeros_at_left_side == 2){
-//         chord = 0x5;
-//         step = (sample_magnitude >> 6) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     if(zeros_at_left_side == 3){
-//         chord = 0x4;
-//         step = (sample_magnitude >> 5) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     if(zeros_at_left_side == 4){
-//         chord = 0x3;
-//         step = (sample_magnitude >> 4) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     if (zeros_at_left_side == 5){
-//         chord = 0x2;
-//         step = (sample_magnitude >> 3) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     if(zeros_at_left_side == 6){
-//         chord = 0x1;
-//         step = (sample_magnitude >> 2) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     if (zeros_at_left_side == 7){
-//         chord = 0x0;
-//         step = (sample_magnitude >> 1) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     return (int) sample_magnitude;
-// }
+int codeword_compression_clz(unsigned int sample_magnitude, int sign) {
+    int chord, step;
+    int codeword_tmp;
+    int zeros_at_left_side = __builtin_clz(sample_magnitude << 19);
+    // printf("%d\n", zeros_at_left_side);
+    if(zeros_at_left_side == 0){
+        chord = 0x7;
+        step = (sample_magnitude >> 8) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+        return (codeword_tmp);
+    }
+    if(zeros_at_left_side == 1){
+        chord = 0x6;
+        step = (sample_magnitude >> 7) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+        return (codeword_tmp);
+    }
+    if(zeros_at_left_side == 2){
+        chord = 0x5;
+        step = (sample_magnitude >> 6) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+        return (codeword_tmp);
+    }
+    if(zeros_at_left_side == 3){
+        chord = 0x4;
+        step = (sample_magnitude >> 5) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+        return (codeword_tmp);
+    }
+    if(zeros_at_left_side == 4){
+        chord = 0x3;
+        step = (sample_magnitude >> 4) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+        return (codeword_tmp);
+    }
+    if (zeros_at_left_side == 5){
+        chord = 0x2;
+        step = (sample_magnitude >> 3) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+        return (codeword_tmp);
+    }
+    if(zeros_at_left_side == 6){
+        chord = 0x1;
+        step = (sample_magnitude >> 2) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+        return (codeword_tmp);
+    }
+    if (zeros_at_left_side == 7){
+        chord = 0x0;
+        step = (sample_magnitude >> 1) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+        return (codeword_tmp);
+    }
+    return (int) sample_magnitude;
+}
 
 // μ-law compression with CLZ and switch 
 int codeword_compression_clz_switch(unsigned int sample_magnitude, int sign) {
@@ -196,48 +195,48 @@ int codeword_compression_clz_switch(unsigned int sample_magnitude, int sign) {
 }
 
 // // μ-law decompression
-// int16_t codeword_decompression(unsigned char compressed) {
-//     int step = compressed & 0x0F;
-//     int codeword_tmp = 1;
-//     int chord = (compressed & 0x70) >> 4;
-//     int sign = (compressed & 0x80) >> 7;
-//     int zeros_ones;
+int16_t codeword_decompression(unsigned char compressed) {
+    int step = compressed & 0x0F;
+    int codeword_tmp = 1;
+    int chord = (compressed & 0x70) >> 4;
+    int sign = (compressed & 0x80) >> 7;
+    int zeros_ones;
 
-//     if (chord == 7){
-//         zeros_ones = 0x80;
-//         codeword_tmp = (1 << 12) | (step << 8) | zeros_ones;
-//     } else if (chord == 6){
-//         zeros_ones = 0x840; // Rightmost zeros
-//         codeword_tmp = (step << 7) | zeros_ones;
-//     } else if (chord == 5){
-//         zeros_ones = 0x420; // Rightmost zeros
-//         codeword_tmp = (step << 6) | zeros_ones;
-//     } else if (chord == 4){
-//         zeros_ones = 0x210; // Rightmost zeros
-//         codeword_tmp = (step << 5) | zeros_ones;
-//     } else if (chord == 3){
-//         zeros_ones = 0x108; // Rightmost zeros
-//         codeword_tmp = (step << 4) | zeros_ones;
-//     } else if (chord == 2){
-//         zeros_ones = 0x84; // Rightmost zeros
-//         codeword_tmp = (step << 3) | zeros_ones;
-//     } else if (chord == 1){
-//         zeros_ones = 0x102; // Rightmost zeros
-//         codeword_tmp = (step << 2) | zeros_ones;
-//     } else if (chord == 0){
-//         zeros_ones = 0x21; // Rightmost zeros
-//         codeword_tmp = (step << 1) | zeros_ones;
-//     }
+    if (chord == 7){
+        zeros_ones = 0x80;
+        codeword_tmp = (1 << 12) | (step << 8) | zeros_ones;
+    } else if (chord == 6){
+        zeros_ones = 0x840; // Rightmost zeros
+        codeword_tmp = (step << 7) | zeros_ones;
+    } else if (chord == 5){
+        zeros_ones = 0x420; // Rightmost zeros
+        codeword_tmp = (step << 6) | zeros_ones;
+    } else if (chord == 4){
+        zeros_ones = 0x210; // Rightmost zeros
+        codeword_tmp = (step << 5) | zeros_ones;
+    } else if (chord == 3){
+        zeros_ones = 0x108; // Rightmost zeros
+        codeword_tmp = (step << 4) | zeros_ones;
+    } else if (chord == 2){
+        zeros_ones = 0x84; // Rightmost zeros
+        codeword_tmp = (step << 3) | zeros_ones;
+    } else if (chord == 1){
+        zeros_ones = 0x102; // Rightmost zeros
+        codeword_tmp = (step << 2) | zeros_ones;
+    } else if (chord == 0){
+        zeros_ones = 0x21; // Rightmost zeros
+        codeword_tmp = (step << 1) | zeros_ones;
+    }
 
-//     int16_t sample;
-//     if (sign == 0) {
-//         sample = -(int16_t)codeword_tmp;
-//     } else {
-//         sample = (int16_t)codeword_tmp;
-//     }
+    int16_t sample;
+    if (sign == 0) {
+        sample = -(int16_t)codeword_tmp;
+    } else {
+        sample = (int16_t)codeword_tmp;
+    }
 
-//     return sample;
-// }
+    return sample;
+}
 
 // μ-law decompression with switches
 int16_t codeword_decompression_switch(unsigned char compressed) {

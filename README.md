@@ -14,3 +14,5 @@ Welcome! Please see below for instructions on how to compile and run this projec
 
 Optional: record your own .wav audio file to test and name it "input_audio" as well and change the name of the current "inpubt_audio" file so there isn't any confusion. 
    
+Notes:
+ - In compression_decompression.c there are unused compression/decompression functions. These are the un-optimized functions that we chose to keep in there for your viewing/interest. The code can be edited easily to run with these functions by simply editing the calling of the functions in main().
