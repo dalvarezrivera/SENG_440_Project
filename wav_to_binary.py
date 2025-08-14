@@ -11,7 +11,7 @@ def int_to_twos_complement_bin(value, bits=16):
 
 def main():
     # Load wav file (mono)
-    y, sr = librosa.load("temp.wav", sr=None)  # sr=None to keep original sampling rate
+    y, sr = librosa.load("input_audio.wav", sr=None)  # sr=None to keep original sampling rate
 
     # Convert float samples to 16-bit signed integers
     int_samples = np.int16(y * 32767)
