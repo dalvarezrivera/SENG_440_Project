@@ -318,81 +318,81 @@ int16_t codeword_decompression(unsigned char compressed) {
 
     // return sample;
     //--------------------------------------
-    // int zeros_ones;
-
-    // if (chord == 7){
-    //     zeros_ones = 0x80;
-    //     codeword_tmp = (1 << 12) | (step << 8) | zeros_ones;
-    // } else if (chord == 6){
-    //     zeros_ones = 0x840; // Rightmost zeros
-    //     codeword_tmp = (step << 7) | zeros_ones;
-    // } else if (chord == 5){
-    //     zeros_ones = 0x420; // Rightmost zeros
-    //     codeword_tmp = (step << 6) | zeros_ones;
-    // } else if (chord == 4){
-    //     zeros_ones = 0x210; // Rightmost zeros
-    //     codeword_tmp = (step << 5) | zeros_ones;
-    // } else if (chord == 3){
-    //     zeros_ones = 0x108; // Rightmost zeros
-    //     codeword_tmp = (step << 4) | zeros_ones;
-    // } else if (chord == 2){
-    //     zeros_ones = 0x84; // Rightmost zeros
-    //     codeword_tmp = (step << 3) | zeros_ones;
-    // } else if (chord == 1){
-    //     zeros_ones = 0x102; // Rightmost zeros
-    //     codeword_tmp = (step << 2) | zeros_ones;
-    // } else if (chord == 0){
-    //     zeros_ones = 0x21; // Rightmost zeros
-    //     codeword_tmp = (step << 1) | zeros_ones;
-    // }
-
-    // int16_t sample;
-    // if (sign == 0) {
-    //     sample = -(int16_t)codeword_tmp;
-    // } else {
-    //     sample = (int16_t)codeword_tmp;
-    // }
-
-    // return sample;
-
-    //------------------------------------------------
-
-    //with switches
     int zeros_ones;
 
-    switch (chord){
-        case 7:
-            zeros_ones = 0x80;
-            codeword_tmp = (1 << 12) | (step << 8) | zeros_ones; break;
-        case 6:
-            zeros_ones = 0x840; // Rightmost zeros
-            codeword_tmp = (step << 7) | zeros_ones; break;
-        case 5:
-            zeros_ones = 0x420; // Rightmost zeros
-            codeword_tmp = (step << 6) | zeros_ones; break;
-        case 4:
-            zeros_ones = 0x210; // Rightmost zeros
-            codeword_tmp = (step << 5) | zeros_ones; break;
-        case 3:
-            zeros_ones = 0x108; // Rightmost zeros
-            codeword_tmp = (step << 4) | zeros_ones; break;
-        case 2:
-            zeros_ones = 0x84; // Rightmost zeros
-            codeword_tmp = (step << 3) | zeros_ones; break;
-        case 1:
-            zeros_ones = 0x102; // Rightmost zeros
-            codeword_tmp = (step << 2) | zeros_ones; break;
-        case 0:
-            zeros_ones = 0x21; // Rightmost zeros
-            codeword_tmp = (step << 1) | zeros_ones; break;
+    if (chord == 7){
+        zeros_ones = 0x80;
+        codeword_tmp = (1 << 12) | (step << 8) | zeros_ones;
+    } else if (chord == 6){
+        zeros_ones = 0x840; // Rightmost zeros
+        codeword_tmp = (step << 7) | zeros_ones;
+    } else if (chord == 5){
+        zeros_ones = 0x420; // Rightmost zeros
+        codeword_tmp = (step << 6) | zeros_ones;
+    } else if (chord == 4){
+        zeros_ones = 0x210; // Rightmost zeros
+        codeword_tmp = (step << 5) | zeros_ones;
+    } else if (chord == 3){
+        zeros_ones = 0x108; // Rightmost zeros
+        codeword_tmp = (step << 4) | zeros_ones;
+    } else if (chord == 2){
+        zeros_ones = 0x84; // Rightmost zeros
+        codeword_tmp = (step << 3) | zeros_ones;
+    } else if (chord == 1){
+        zeros_ones = 0x102; // Rightmost zeros
+        codeword_tmp = (step << 2) | zeros_ones;
+    } else if (chord == 0){
+        zeros_ones = 0x21; // Rightmost zeros
+        codeword_tmp = (step << 1) | zeros_ones;
     }
+
     int16_t sample;
     if (sign == 0) {
         sample = -(int16_t)codeword_tmp;
     } else {
         sample = (int16_t)codeword_tmp;
     }
+
     return sample;
+
+    //------------------------------------------------
+
+    //with switches
+    // int zeros_ones;
+
+    // switch (chord){
+    //     case 7:
+    //         zeros_ones = 0x80;
+    //         codeword_tmp = (1 << 12) | (step << 8) | zeros_ones; break;
+    //     case 6:
+    //         zeros_ones = 0x840; // Rightmost zeros
+    //         codeword_tmp = (step << 7) | zeros_ones; break;
+    //     case 5:
+    //         zeros_ones = 0x420; // Rightmost zeros
+    //         codeword_tmp = (step << 6) | zeros_ones; break;
+    //     case 4:
+    //         zeros_ones = 0x210; // Rightmost zeros
+    //         codeword_tmp = (step << 5) | zeros_ones; break;
+    //     case 3:
+    //         zeros_ones = 0x108; // Rightmost zeros
+    //         codeword_tmp = (step << 4) | zeros_ones; break;
+    //     case 2:
+    //         zeros_ones = 0x84; // Rightmost zeros
+    //         codeword_tmp = (step << 3) | zeros_ones; break;
+    //     case 1:
+    //         zeros_ones = 0x102; // Rightmost zeros
+    //         codeword_tmp = (step << 2) | zeros_ones; break;
+    //     case 0:
+    //         zeros_ones = 0x21; // Rightmost zeros
+    //         codeword_tmp = (step << 1) | zeros_ones; break;
+    // }
+    // int16_t sample;
+    // if (sign == 0) {
+    //     sample = -(int16_t)codeword_tmp;
+    // } else {
+    //     sample = (int16_t)codeword_tmp;
+    // }
+    // return sample;
 }
 
 int main() {
