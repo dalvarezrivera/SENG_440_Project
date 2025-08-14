@@ -10,8 +10,8 @@ def twos_complement_to_int(bstr):
     return val
 
 def main():
-    input_file = "daniel_text_decompressed.txt"   # Text file with binary strings
-    output_wav = "reconstructed_check.wav"
+    input_file = "output_decompressed_gpt3.txt"   # Text file with binary strings
+    output_wav = "reconstructed_check_3.wav"
     sample_rate = 48000       # Use the original WAV sample rate
     bit_depth = 16            # Number of bits per sample
 

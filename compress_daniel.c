@@ -9,23 +9,23 @@
 #define LINE_LENGTH_READ 35 // 32 bits + '\0' + safety
 #define LINE_LENGTH_ADJUSTED 13
 
-//LSB to MSB order 
-void int_to_binary(int n, char *output, int length) {
-    for (int i = 0; i < length; i++){
-        output[i] = ((1 << i) & n) ? '1' : '0';
-    }
-    output[length] = '\0';
-}
-
-
-//MSB to LSB order
+// //LSB to MSB order 
 // void int_to_binary(int n, char *output, int length) {
 //     for (int i = 0; i < length; i++){
-//         // Print MSB first:
-//         output[i] = (n & (1 << (length - 1 - i))) ? '1' : '0';
+//         output[i] = ((1 << i) & n) ? '1' : '0';
 //     }
 //     output[length] = '\0';
 // }
+
+
+//MSB to LSB order
+void int_to_binary(int n, char *output, int length) {
+    for (int i = 0; i < length; i++){
+        // Print MSB first:
+        output[i] = (n & (1 << (length - 1 - i))) ? '1' : '0';
+    }
+    output[length] = '\0';
+}
 
 //good should work 
 int signum (int sample){
@@ -37,7 +37,7 @@ int signum (int sample){
 }
 
 
-// int magnitude (int sample){
+// int get_magnitude (int sample){
 //     if(sample < 0) {
 //         sample = -sample;
 //     }
