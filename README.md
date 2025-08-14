@@ -1,9 +1,10 @@
 # Audio Compression and Decompression Project 
-## Instructions:
-### Pre-requisites:
+Welcome! Please see below for instructions on how to compile and run this project.
+## Pre-requisites:
  - You have gcc
  - Python is installed (We checked and this is ok - as it is far more difficult to process wav files in C)
 
+## Instructions:
  1.  Listen to .wav audio file labelled "input_audio". This is an un-altered audio recording.
  2.  Execute the wav_to_binary.py file to convert the audio file into binary: "python wav_to_binary.py" 
  3.  Compile: gcc compress.c -o compress (Other flags are optional)
