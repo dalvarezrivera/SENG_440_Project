@@ -403,7 +403,7 @@ int main() {
     }else{
         printf("Opened input file\n");
     }
-    FILE *output_file = fopen("output_decompressed_gpt3.txt", "w");
+    FILE *output_file = fopen("output_decompressed_VM.txt", "w");
     if (!output_file) {
         perror("Error opening output_decompressed.txt");
         fclose(input_file);
