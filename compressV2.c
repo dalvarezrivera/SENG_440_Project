@@ -89,113 +89,113 @@ int binary_to_int(const char *in) {
 // }
 
 // with clz
-// int codeword_compression(unsigned int sample_magnitude, int sign) {
-//     int chord, step;
-//     int codeword_tmp;
-//     int zeros_at_left_side = __builtin_clz(sample_magnitude << 19);
-//     // printf("%d\n", zeros_at_left_side);
-//     if(zeros_at_left_side == 0){
-//         chord = 0x7;
-//         step = (sample_magnitude >> 8) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     if(zeros_at_left_side == 1){
-//         chord = 0x6;
-//         step = (sample_magnitude >> 7) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     if(zeros_at_left_side == 2){
-//         chord = 0x5;
-//         step = (sample_magnitude >> 6) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     if(zeros_at_left_side == 3){
-//         chord = 0x4;
-//         step = (sample_magnitude >> 5) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     if(zeros_at_left_side == 4){
-//         chord = 0x3;
-//         step = (sample_magnitude >> 4) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     if (zeros_at_left_side == 5){
-//         chord = 0x2;
-//         step = (sample_magnitude >> 3) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     if(zeros_at_left_side == 6){
-//         chord = 0x1;
-//         step = (sample_magnitude >> 2) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     if (zeros_at_left_side == 7){
-//         chord = 0x0;
-//         step = (sample_magnitude >> 1) & 0xF;
-//         codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-//         return (codeword_tmp);
-//     }
-//     return (int) sample_magnitude;
-// }
-
-//with clz and switch 
 int codeword_compression(unsigned int sample_magnitude, int sign) {
     int chord, step;
     int codeword_tmp;
     int zeros_at_left_side = __builtin_clz(sample_magnitude << 19);
-
-    switch (zeros_at_left_side){
-        case 0:
-            chord = 0x7;
-            step = (sample_magnitude >> 8) & 0xF;
-            codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-            return (codeword_tmp);
-        case 1:
-            chord = 0x6;
-            step = (sample_magnitude >> 7) & 0xF;
-            codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-            return (codeword_tmp);
-        case 2:
-            chord = 0x5;
-            step = (sample_magnitude >> 6) & 0xF;
-            codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-            return (codeword_tmp);
-        case 3:
-            chord = 0x4;
-            step = (sample_magnitude >> 5) & 0xF;
-            codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-            return (codeword_tmp);
-        case 4:
-            chord = 0x3;
-            step = (sample_magnitude >> 4) & 0xF;
-            codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+    // printf("%d\n", zeros_at_left_side);
+    if(zeros_at_left_side == 0){
+        chord = 0x7;
+        step = (sample_magnitude >> 8) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
         return (codeword_tmp);
-        case 5:
-            chord = 0x2;
-            step = (sample_magnitude >> 3) & 0xF;
-            codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-            return (codeword_tmp);
-        case 6:
-            chord = 0x1;
-            step = (sample_magnitude >> 2) & 0xF;
-            codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-            return (codeword_tmp);
-        case 7:
-            chord = 0x0;
-            step = (sample_magnitude >> 1) & 0xF;
-            codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
-            return (codeword_tmp);
-        default:
-            return (int) sample_magnitude;
     }
+    if(zeros_at_left_side == 1){
+        chord = 0x6;
+        step = (sample_magnitude >> 7) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+        return (codeword_tmp);
+    }
+    if(zeros_at_left_side == 2){
+        chord = 0x5;
+        step = (sample_magnitude >> 6) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+        return (codeword_tmp);
+    }
+    if(zeros_at_left_side == 3){
+        chord = 0x4;
+        step = (sample_magnitude >> 5) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+        return (codeword_tmp);
+    }
+    if(zeros_at_left_side == 4){
+        chord = 0x3;
+        step = (sample_magnitude >> 4) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+        return (codeword_tmp);
+    }
+    if (zeros_at_left_side == 5){
+        chord = 0x2;
+        step = (sample_magnitude >> 3) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+        return (codeword_tmp);
+    }
+    if(zeros_at_left_side == 6){
+        chord = 0x1;
+        step = (sample_magnitude >> 2) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+        return (codeword_tmp);
+    }
+    if (zeros_at_left_side == 7){
+        chord = 0x0;
+        step = (sample_magnitude >> 1) & 0xF;
+        codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+        return (codeword_tmp);
+    }
+    return (int) sample_magnitude;
 }
+
+//with clz and switch 
+// int codeword_compression(unsigned int sample_magnitude, int sign) {
+//     int chord, step;
+//     int codeword_tmp;
+//     int zeros_at_left_side = __builtin_clz(sample_magnitude << 19);
+
+//     switch (zeros_at_left_side){
+//         case 0:
+//             chord = 0x7;
+//             step = (sample_magnitude >> 8) & 0xF;
+//             codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+//             return (codeword_tmp);
+//         case 1:
+//             chord = 0x6;
+//             step = (sample_magnitude >> 7) & 0xF;
+//             codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+//             return (codeword_tmp);
+//         case 2:
+//             chord = 0x5;
+//             step = (sample_magnitude >> 6) & 0xF;
+//             codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+//             return (codeword_tmp);
+//         case 3:
+//             chord = 0x4;
+//             step = (sample_magnitude >> 5) & 0xF;
+//             codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+//             return (codeword_tmp);
+//         case 4:
+//             chord = 0x3;
+//             step = (sample_magnitude >> 4) & 0xF;
+//             codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+//         return (codeword_tmp);
+//         case 5:
+//             chord = 0x2;
+//             step = (sample_magnitude >> 3) & 0xF;
+//             codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+//             return (codeword_tmp);
+//         case 6:
+//             chord = 0x1;
+//             step = (sample_magnitude >> 2) & 0xF;
+//             codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+//             return (codeword_tmp);
+//         case 7:
+//             chord = 0x0;
+//             step = (sample_magnitude >> 1) & 0xF;
+//             codeword_tmp = ((abs(sign-1)) << 7) | (chord << 4) | step;
+//             return (codeword_tmp);
+//         default:
+//             return (int) sample_magnitude;
+//     }
+// }
 
 // μ-law decompression: reverse compressed byte to 16-bit magnitude with sign
 // Similar to your codeword_decompression style
