@@ -396,14 +396,14 @@ int16_t codeword_decompression(unsigned char compressed) {
 }
 
 int main() {
-    FILE *input_file = fopen("data_test.txt", "r");
+    FILE *input_file = fopen("input_binary.txt", "r");
     if (!input_file) {
-        perror("Error opening data_test.txt");
+        perror("Error opening input_binary.txt");
         return 1;
     }else{
         printf("Opened input file\n");
     }
-    FILE *output_file = fopen("output_decompressed_VM.txt", "w");
+    FILE *output_file = fopen("output_decompressed.txt", "w");
     if (!output_file) {
         perror("Error opening output_decompressed.txt");
         fclose(input_file);

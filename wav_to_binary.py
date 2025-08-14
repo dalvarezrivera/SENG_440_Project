@@ -20,7 +20,7 @@ def main():
     result = [int_to_twos_complement_bin(sample, bits=16) for sample in int_samples]
 
     # Write binary strings to text file
-    with open("data_test.txt", "w") as f:
+    with open("input_binary.txt", "w") as f:
         for binary_str in result:
             f.write(binary_str + "\n")
 
